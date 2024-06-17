@@ -23,15 +23,15 @@ pub(crate) struct EIP712Domain {
 	pub(crate) version: String,
 	pub(crate) chain_id: U256,
 	pub(crate) verifying_contract: Address,
-	// #[serde(skip_serializing_if="Option::is_none")]
+	#[serde(skip_serializing_if="Option::is_none")]
 	pub(crate) salt: Option<H256>,
 }
-// /// EIP-712 struct
-// #[serde(rename_all = "camelCase")]
-// #[serde(deny_unknown_fields)]
-// #[derive(Deserialize, Debug, Clone)]
+/// EIP-712 struct
+#[derive(Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct EIP712 {
-	pub(crate) types: MessageTypes,
+	// pub(crate) types: MessageTypes,
 	pub(crate) primary_type: String,
 	pub(crate) message: Value,
 	// pub(crate) domain: EIP712Domain,
@@ -48,7 +48,7 @@ pub struct EIP712 {
 // 	}
 // }
 
-// #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
+#[derive(Serialize, Deserialize, Validate, Debug, Clone)]
 pub(crate) struct FieldType {
 	// #[validate(regex = "IDENT_REGEX")]
 	// pub name: String,
