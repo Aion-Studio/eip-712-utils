@@ -3,7 +3,8 @@ use serde_json::{Value};
 use std::collections::HashMap;
 use ethereum_types::{U256, H256, Address};
 use regex::Regex;
-use validator::{Validate,ValidationErrors};
+use validator::Validate;
+use validator::ValidationErrors;
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 
@@ -15,9 +16,9 @@ lazy_static! {
 	static ref IDENT_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*$").unwrap();
 }
 
-#[derive(Deserialize, Serialize, Validate, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
+#[derive(Deserialize, Serialize, Validate, Debug, Clone)]
 pub(crate) struct EIP712Domain {
 	pub(crate) name: String,
 	pub(crate) version: String,
@@ -27,9 +28,9 @@ pub(crate) struct EIP712Domain {
 	pub(crate) salt: Option<H256>,
 }
 /// EIP-712 struct
-#[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct EIP712 {
 	pub(crate) types: MessageTypes,
 	pub(crate) primary_type: String,
@@ -37,22 +38,43 @@ pub struct EIP712 {
 	pub(crate) domain: EIP712Domain,
 }
 
-// impl Validate for EIP712 {
-// 	fn validate(&self) -> Result<(), ValidationErrors> {
-// 		for field_types in self.types.values() {
-// 			for field_type in field_types {
-// 				field_type.validate()?;
-// 			}
-// 		}
-// 		Ok(())
-// 	}
-// }
+impl Validate for EIP712 {
+	fn validate(&self) -> Result<(), ValidationErrors> {
+		for field_types in self.types.values() {
+			for field_type in field_types {
+				field_type.validate()?;
+			}
+		}
+		Ok(())
+	}
+}
+
 
 #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
 pub(crate) struct FieldType {
-	// #[validate(regex = "IDENT_REGEX")]
+	#[validate(regex = "IDENT_REGEX")]
 	pub name: String,
-	// #[serde(rename = "type")]
-	// #[validate(regex = "TYPE_REGEX")]
+	#[serde(rename = "type")]
+	#[validate(regex = "TYPE_REGEX")]
 	pub type_: String,
 }
+
+// #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
+// pub(crate) struct FieldType {
+// 	// #[validate(regex = IDENT_REGEX)]
+// 	// pub name: String,
+// 	// #[validate(regex = "IDENT_REGEX")]
+//     #[validate(custom = "validate_ident_regex")]
+// 	pub name: String,
+// 	#[serde(rename = "type")]
+// 	// #[validate(regex = "TYPE_REGEX")]
+// 	pub type_: String,
+// }
+
+// fn validate_ident_regex(name: &str) -> Result<(), validator::ValidationError> {
+// 	if IDENT_REGEX.is_match(name) {
+// 		Ok(())
+// 	} else {
+// 		Err(validator::ValidationError::new("invalid_name"))
+// 	}
+// }
