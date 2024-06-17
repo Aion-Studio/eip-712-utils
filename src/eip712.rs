@@ -5,6 +5,7 @@ use ethereum_types::{U256, H256, Address};
 use regex::Regex;
 use validator::{Validate,ValidationErrors};
 use lazy_static::lazy_static;
+use serde::{Deserialize, Serialize};
 
 pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
 
@@ -14,9 +15,9 @@ lazy_static! {
 	static ref IDENT_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*$").unwrap();
 }
 
-// #[serde(rename_all = "camelCase")]
-// #[serde(deny_unknown_fields)]
-// #[derive(Deserialize, Serialize, Validate, Debug, Clone)]
+#[derive(Deserialize, Serialize, Validate, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub(crate) struct EIP712Domain {
 	pub(crate) name: String,
 	pub(crate) version: String,
