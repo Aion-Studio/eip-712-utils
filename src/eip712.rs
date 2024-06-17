@@ -6,7 +6,7 @@ use regex::Regex;
 use validator::{Validate,ValidationErrors};
 use lazy_static::lazy_static;
 
-// pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
+pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
 
 // lazy_static! {
 // 	// match solidity identifier with the addition of '[(\d)*]*'
@@ -48,10 +48,10 @@ pub struct EIP712 {
 // }
 
 // #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
-// pub(crate) struct FieldType {
-// 	#[validate(regex = "IDENT_REGEX")]
-// 	pub name: String,
-// 	#[serde(rename = "type")]
-// 	#[validate(regex = "TYPE_REGEX")]
-// 	pub type_: String,
-// }
+pub(crate) struct FieldType {
+	// #[validate(regex = "IDENT_REGEX")]
+	// pub name: String,
+	// #[serde(rename = "type")]
+	// #[validate(regex = "TYPE_REGEX")]
+	// pub type_: String,
+}
