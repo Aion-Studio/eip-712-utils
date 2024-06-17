@@ -33,7 +33,7 @@
 //      assert_eq!(result, "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7");
 // }
 
-pub fn create_domain_string(
+pub fn create_domain(
     name: &str,
     version: &str,
     chain_id: &str,
@@ -50,12 +50,7 @@ pub fn create_domain_string(
     )
 }
 
-pub fn create_message_string(
-    token_id: &str,
-    amount: &str,
-    to: &str,
-    nonce: &str,
-) -> String {
+pub fn create_message(token_id: &str, amount: &str, to: &str, nonce: &str) -> String {
     format!(
         r#"{{
         "tokenId": "{}",
@@ -67,10 +62,7 @@ pub fn create_message_string(
     )
 }
 
-pub fn generate_eip712_json_string(
-    domain_string: &str,
-    message_string: &str,
-) -> String {
+pub fn generate_eip712_json_string(domain: &str, message: &str) -> String {
     let json = format!(
         r#"{{
         "primaryType": "NFTData",
@@ -91,7 +83,7 @@ pub fn generate_eip712_json_string(
             ]
         }}
     }}"#,
-        domain_string, message_string
+        domain, message
     );
 
     json
@@ -112,10 +104,10 @@ mod tests {
         let to = "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496";
         let nonce = "0x1";
 
-        let domain_string = create_domain_string(name, version, chain_id, verifying_contract);
-        let message_string = create_message_string(token_id, amount, to, nonce);
+        let domain_string = create_domain(name, version, chain_id, verifying_contract);
+        let message_string = create_message(token_id, amount, to, nonce);
         let json = generate_eip712_json_string(&domain_string, &message_string);
-        
+
         let expected_json = r#"{
             "primaryType": "NFTData",
             "domain": {
