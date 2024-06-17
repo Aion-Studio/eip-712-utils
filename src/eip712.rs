@@ -30,9 +30,9 @@ lazy_static! {
 // #[serde(deny_unknown_fields)]
 // #[derive(Deserialize, Debug, Clone)]
 pub struct EIP712 {
-	// pub(crate) types: MessageTypes,
-	// pub(crate) primary_type: String,
-	// pub(crate) message: Value,
+	pub(crate) types: MessageTypes,
+	pub(crate) primary_type: String,
+	pub(crate) message: Value,
 	// pub(crate) domain: EIP712Domain,
 }
 
