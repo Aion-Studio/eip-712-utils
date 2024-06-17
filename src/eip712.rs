@@ -8,11 +8,11 @@ use lazy_static::lazy_static;
 
 pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
 
-// lazy_static! {
-// 	// match solidity identifier with the addition of '[(\d)*]*'
-// 	static ref TYPE_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*(\[([1-9]\d*)*\])*$").unwrap();
-// 	static ref IDENT_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*$").unwrap();
-// }
+lazy_static! {
+	// match solidity identifier with the addition of '[(\d)*]*'
+	static ref TYPE_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*(\[([1-9]\d*)*\])*$").unwrap();
+	static ref IDENT_REGEX: Regex = Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*$").unwrap();
+}
 
 // #[serde(rename_all = "camelCase")]
 // #[serde(deny_unknown_fields)]
