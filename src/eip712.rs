@@ -17,14 +17,14 @@ lazy_static! {
 // #[serde(rename_all = "camelCase")]
 // #[serde(deny_unknown_fields)]
 // #[derive(Deserialize, Serialize, Validate, Debug, Clone)]
-// pub(crate) struct EIP712Domain {
-// 	pub(crate) name: String,
-// 	pub(crate) version: String,
-// 	pub(crate) chain_id: U256,
-// 	pub(crate) verifying_contract: Address,
-// 	#[serde(skip_serializing_if="Option::is_none")]
-// 	pub(crate) salt: Option<H256>,
-// }
+pub(crate) struct EIP712Domain {
+	pub(crate) name: String,
+	pub(crate) version: String,
+	pub(crate) chain_id: U256,
+	pub(crate) verifying_contract: Address,
+	// #[serde(skip_serializing_if="Option::is_none")]
+	pub(crate) salt: Option<H256>,
+}
 // /// EIP-712 struct
 // #[serde(rename_all = "camelCase")]
 // #[serde(deny_unknown_fields)]
