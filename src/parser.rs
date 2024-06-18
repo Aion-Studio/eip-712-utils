@@ -52,9 +52,9 @@ impl fmt::Display for Type {
 	}
 }
 
-// pub struct Parser {
-// 	arena: Arena,
-// }
+pub struct Parser {
+	arena: Arena,
+}
 
 // impl Parser {
 // 	pub fn new() -> Self {
