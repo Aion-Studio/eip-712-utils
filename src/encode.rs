@@ -80,9 +80,9 @@ fn encode_type(message_type: &str, message_types: &MessageTypes) -> Result<Strin
 	Ok(encoded)
 }
 
-// fn type_hash(message_type: &str, typed_data: &MessageTypes) -> Result<H256> {
-// 	Ok(keccak(encode_type(message_type, typed_data)?))
-// }
+fn type_hash(message_type: &str, typed_data: &MessageTypes) -> Result<H256> {
+	Ok(keccak(encode_type(message_type, typed_data)?))
+}
 
 // fn encode_data(
 // 	parser: &Parser,
