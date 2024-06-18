@@ -20,30 +20,30 @@ pub enum Type {
 	}
 }
 
-// impl From<Type> for String {
-// 	fn from(field_type: Type) -> String {
-// 		match field_type {
-// 			Type::Address => "address".into(),
-// 			Type::Uint => "uint".into(),
-// 			Type::Int => "int".into(),
-// 			Type::String => "string".into(),
-// 			Type::Bool => "bool".into(),
-// 			Type::Bytes => "bytes".into(),
-// 			Type::Byte(len) => format!("bytes{}", len),
-// 			Type::Custom(custom) => custom,
-// 			Type::Array {
-// 				inner,
-// 				length
-// 			} => {
-// 				let inner: String = (*inner).into();
-// 				match length {
-// 					None => format!("{}[]", inner),
-// 					Some(length) => format!("{}[{}]", inner, length)
-// 				}
-// 			}
-// 		}
-// 	}
-// }
+impl From<Type> for String {
+	fn from(field_type: Type) -> String {
+		match field_type {
+			Type::Address => "address".into(),
+			Type::Uint => "uint".into(),
+			Type::Int => "int".into(),
+			Type::String => "string".into(),
+			Type::Bool => "bool".into(),
+			Type::Bytes => "bytes".into(),
+			Type::Byte(len) => format!("bytes{}", len),
+			Type::Custom(custom) => custom,
+			Type::Array {
+				inner,
+				length
+			} => {
+				let inner: String = (*inner).into();
+				match length {
+					None => format!("{}[]", inner),
+					Some(length) => format!("{}[{}]", inner, length)
+				}
+			}
+		}
+	}
+}
 
 // impl fmt::Display for Type {
 // 	fn fmt(&self, f: &mut fmt::Formatter) -> result::Result<(), fmt::Error> {
