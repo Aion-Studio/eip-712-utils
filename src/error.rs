@@ -50,60 +50,60 @@ pub(crate) fn serde_error(expected: &str, field: Option<&str>) -> ErrorKind {
 	ErrorKind::UnexpectedType(expected.to_owned(), field.unwrap_or("").to_owned())
 }
 
-// impl Fail for Error {
-// 	fn cause(&self) -> Option<&Fail> {
-// 		self.inner.cause()
-// 	}
+impl Fail for Error {
+	fn cause(&self) -> Option<&dyn Fail> {
+		self.inner.cause()
+	}
 
-// 	fn backtrace(&self) -> Option<&Backtrace> {
-// 		self.inner.backtrace()
-// 	}
-// }
+	fn backtrace(&self) -> Option<&Backtrace> {
+		self.inner.backtrace()
+	}
+}
 
-// impl Display for Error {
-// 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-// 		Display::fmt(&self.inner, f)
-// 	}
-// }
+impl Display for Error {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		Display::fmt(&self.inner, f)
+	}
+}
 
-// impl Error {
-// 	/// extract the error kind
-// 	pub fn kind(&self) -> ErrorKind {
-// 		self.inner.get_context().clone()
-// 	}
-// }
+impl Error {
+	/// extract the error kind
+	pub fn kind(&self) -> ErrorKind {
+		self.inner.get_context().clone()
+	}
+}
 
-// impl From<ErrorKind> for Error {
-// 	fn from(kind: ErrorKind) -> Error {
-// 		Error { inner: Context::new(kind) }
-// 	}
-// }
+impl From<ErrorKind> for Error {
+	fn from(kind: ErrorKind) -> Error {
+		Error { inner: Context::new(kind) }
+	}
+}
 
-// impl From<Context<ErrorKind>> for Error {
-// 	fn from(inner: Context<ErrorKind>) -> Error {
-// 		Error { inner }
-// 	}
-// }
+impl From<Context<ErrorKind>> for Error {
+	fn from(inner: Context<ErrorKind>) -> Error {
+		Error { inner }
+	}
+}
 
-// impl From<ValidationErrors> for Error {
-// 	fn from(error: ValidationErrors) -> Self {
-// 		let mut string: String = "".into();
-// 		for (field_name, error_kind) in error.errors() {
-// 			match error_kind {
-// 				ValidationErrorsKind::Field(validation_errors) => {
-// 					for error in validation_errors {
-// 						let str_error = format!(
-// 							"the field '{}', has an invalid value {}",
-// 							field_name,
-// 							error.params["value"]
-// 						);
-// 						string.push_str(&str_error);
-// 					}
-// 				},
-// 				_ => unreachable!("#[validate] is only used on fields for regex;\
-// 				its impossible to get any other	ErrorKind; qed")
-// 			}
-// 		}
-// 		ErrorKind::ValidationError(string).into()
-// 	}
-// }
+impl From<ValidationErrors> for Error {
+	fn from(error: ValidationErrors) -> Self {
+		let mut string: String = "".into();
+		for (field_name, error_kind) in error.errors() {
+			match error_kind {
+				ValidationErrorsKind::Field(validation_errors) => {
+					for error in validation_errors {
+						let str_error = format!(
+							"the field '{}', has an invalid value {}",
+							field_name,
+							error.params["value"]
+						);
+						string.push_str(&str_error);
+					}
+				},
+				_ => unreachable!("#[validate] is only used on fields for regex;\
+				its impossible to get any other	ErrorKind; qed")
+			}
+		}
+		ErrorKind::ValidationError(string).into()
+	}
+}
