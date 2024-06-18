@@ -66,6 +66,8 @@ pub fn generate_eip712_json_string(domain: &str, message: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+	use serde_json::from_str;
+	use rustc_hex::ToHex;
 
     #[test]
     fn it_creates_json_string() {
@@ -132,9 +134,9 @@ mod tests {
         let message_string = create_message(token_id, amount, to, nonce);
         let json = generate_eip712_json_string(&domain_string, &message_string);
 
-        // let typed_data = from_str::<EIP712>(json).unwrap();
+        let typed_data = from_str::<EIP712>(&json).unwrap();
 
-        // let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
-        // assert_eq!(result, "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7");
+        let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
+        assert_eq!(result, "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7");
     }
 }
