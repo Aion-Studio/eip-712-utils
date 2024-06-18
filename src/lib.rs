@@ -1,8 +1,8 @@
 mod eip712;
 mod encode;
 mod error;
-mod parser;
 mod nft_helpers;
+mod parser;
 mod signing;
 
 pub use crate::eip712::EIP712;
