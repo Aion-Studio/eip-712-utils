@@ -2,23 +2,23 @@
 // use lunarity_lexer::{Lexer, Token};
 use crate::error::*;
 use toolshed::Arena;
-// use std::{fmt, result};
+use std::{fmt, result};
 
-// #[derive(Debug, Clone, PartialEq)]
-// pub enum Type {
-// 	Address,
-// 	Uint,
-// 	Int,
-// 	String,
-// 	Bool,
-// 	Bytes,
-// 	Byte(u8),
-// 	Custom(String),
-// 	Array {
-// 		length: Option<u64>,
-// 		inner: Box<Type>
-// 	}
-// }
+#[derive(Debug, Clone, PartialEq)]
+pub enum Type {
+	Address,
+	Uint,
+	Int,
+	String,
+	Bool,
+	Bytes,
+	Byte(u8),
+	Custom(String),
+	Array {
+		length: Option<u64>,
+		inner: Box<Type>
+	}
+}
 
 // impl From<Type> for String {
 // 	fn from(field_type: Type) -> String {
