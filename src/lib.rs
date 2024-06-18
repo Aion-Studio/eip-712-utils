@@ -1,6 +1,7 @@
 mod eip712;
-mod encode;
 mod error;
+mod parser;
+mod encode;
 
 use crate::eip712::EIP712;
 
