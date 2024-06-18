@@ -16,15 +16,15 @@ use validator::Validate;
 use std::collections::HashSet;
 
 
-// fn check_hex(string: &str) -> Result<()> {
-// 	if string.len() >= 2 && &string[..2] == "0x" {
-// 		return Ok(())
-// 	}
+fn check_hex(string: &str) -> Result<()> {
+	if string.len() >= 2 && &string[..2] == "0x" {
+		return Ok(())
+	}
 
-// 	return Err(ErrorKind::HexParseError(
-// 		format!("Expected a 0x-prefixed string of even length, found {} length string", string.len()))
-// 	)?
-// }
+	return Err(ErrorKind::HexParseError(
+		format!("Expected a 0x-prefixed string of even length, found {} length string", string.len()))
+	)?
+}
 // /// given a type and HashMap<String, Vec<FieldType>>
 // /// returns a HashSet of dependent types of the given type
 // fn build_dependencies<'a>(message_type: &'a str, message_types: &'a MessageTypes) -> Option<(HashSet<&'a str>)>
