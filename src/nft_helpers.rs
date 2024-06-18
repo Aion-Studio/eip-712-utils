@@ -1,5 +1,7 @@
 use crate::encode::hash_structured_data;
 use crate::eip712::EIP712;
+use rustc_hex::ToHex;
+use serde_json::from_str;
 
 pub fn create_domain(
     name: &str,
@@ -55,6 +57,12 @@ pub fn generate_eip712_json_string(domain: &str, message: &str) -> String {
     );
 
     json
+}
+
+pub fn hash_structured_data_string(json: String) -> String {
+    let typed_data = from_str::<EIP712>(&json).unwrap();
+    let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
+    result
 }
 
 #[cfg(test)]

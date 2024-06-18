@@ -14,8 +14,6 @@ pub use crate::signing::sign_message;
 #[cfg(test)]
 mod tests {
     use super::*;
-	use serde_json::from_str;
-	use rustc_hex::ToHex;
 
     #[test]
     fn generate_hash_and_sign_it() {
@@ -31,9 +29,7 @@ mod tests {
         let domain_string = create_domain(name, version, chain_id, verifying_contract);
         let message_string = create_message(token_id, amount, to, nonce);
         let json = generate_eip712_json_string(&domain_string, &message_string);
-        let typed_data = from_str::<EIP712>(&json).unwrap();
-
-        let hashed_structured_data = hash_structured_data(typed_data).unwrap().to_hex::<String>();
+        let hashed_structured_data = hash_structured_data_string(json);
 
         let private_key = 659918_u32;
         let signature = sign_message(&hashed_structured_data, private_key);
