@@ -56,12 +56,12 @@ pub struct Parser {
 	arena: Arena,
 }
 
-// impl Parser {
-// 	pub fn new() -> Self {
-// 		Parser {
-// 			arena: Arena::new()
-// 		}
-// 	}
+impl Parser {
+	pub fn new() -> Self {
+		Parser {
+			arena: Arena::new()
+		}
+	}
 
 // 	/// the type string is being validated before it's parsed.
 // 	pub fn parse_type(&self, field_type: &str) -> Result<Type> {
@@ -127,4 +127,4 @@ pub struct Parser {
 
 // 		Ok(token.ok_or_else(|| ErrorKind::NonExistentType)?)
 // 	}
-// }
+}
