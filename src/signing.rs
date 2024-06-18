@@ -34,12 +34,13 @@ pub fn sign_message(message_hex: &str, private_key_uint: u32) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-	use serde_json::from_str;
-	use rustc_hex::ToHex;
 
     #[test]
     fn it_signs_correctly() {
         let message = "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7";
-
+        let private_key = 659918_u32;
+        let expected_signature = "b9c658f86d985ad0502584c70ea520cf68523e4013786f83f216de093ef9467e453d27fe627278ab0c8425906843a706f66a9c3120b37e88ac722aa217a04fcf1b";
+        let signature = sign_message(message, private_key);
+        assert_eq!(signature, expected_signature);
     }
 }
