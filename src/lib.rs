@@ -133,7 +133,6 @@ mod tests {
         let domain_string = create_domain(name, version, chain_id, verifying_contract);
         let message_string = create_message(token_id, amount, to, nonce);
         let json = generate_eip712_json_string(&domain_string, &message_string);
-
         let typed_data = from_str::<EIP712>(&json).unwrap();
 
         let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
