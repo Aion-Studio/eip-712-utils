@@ -1,4 +1,5 @@
 use hex::{self, encode};
+use secp256k1::{Message, Secp256k1, SecretKey};
 
 pub fn sign_message(message_hex: &str, private_key_uint: u32) -> String {
     let message = hex::decode(message_hex).expect("Decoding failed");
@@ -7,9 +8,9 @@ pub fn sign_message(message_hex: &str, private_key_uint: u32) -> String {
     let mut private_key_bytes = [0u8; 32];
     private_key_bytes[28..].copy_from_slice(&private_key_uint.to_be_bytes());
 
-    // let secret_key =
-    //     SecretKey::from_slice(&private_key_bytes).expect("32 bytes, within curve order");
-    // let secp = Secp256k1::new();
+    let secret_key =
+        SecretKey::from_slice(&private_key_bytes).expect("32 bytes, within curve order");
+    let secp = Secp256k1::new();
 
     // let message = Message::from_digest_slice(&message).expect("32 bytes");
 
