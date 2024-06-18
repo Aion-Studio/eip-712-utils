@@ -12,8 +12,8 @@ use serde_json::to_value;
 // use crate::error::{Result, ErrorKind, serde_error};
 use crate::eip712::{EIP712, MessageTypes};
 use rustc_hex::FromHex;
-// use validator::Validate;
-// use std::collections::HashSet;
+use validator::Validate;
+use std::collections::HashSet;
 
 
 // fn check_hex(string: &str) -> Result<()> {
