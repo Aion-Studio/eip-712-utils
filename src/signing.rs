@@ -12,33 +12,23 @@ pub fn sign_message(message_hex: &str, private_key_uint: u32) -> String {
         SecretKey::from_slice(&private_key_bytes).expect("32 bytes, within curve order");
     let secp = Secp256k1::new();
 
-    // let message = Message::from_digest_slice(&message).expect("32 bytes");
+    let message = Message::from_digest_slice(&message).expect("32 bytes");
 
-    // let sig = secp.sign_ecdsa_recoverable(&message, &secret_key);
+    let sig = secp.sign_ecdsa_recoverable(&message, &secret_key);
 
-    // let (rec_id, signature_bytes) = sig.serialize_compact();
+    let (rec_id, signature_bytes) = sig.serialize_compact();
 
-    // println!("rec_id: {:?}", rec_id);
+    // Convert to hex
+    let signature_hex = encode(signature_bytes); // Use 'encode' from the 'hex' crate
 
-    // // println!("Signature: {:?}", sig);
-    // // let signature_bytes = sig.serialize_compact();
-
-    // // Convert to hex
-    // let signature_hex = encode(signature_bytes); // Use 'encode' from the 'hex' crate
-
-    // // goal: 0xb9c658f86d985ad0502584c70ea520cf68523e4013786f83f216de093ef9467e
-    // // result: b9c658f86d985ad0502584c70ea520cf68523e4013786f83f216de093ef9467e453d27fe627278ab0c8425906843a706f66a9c3120b37e88ac722aa217a04fcf00
-
-    // println!("Signature (hex): {}", signature_hex);
-    // if rec_id.to_i32() == 0 {
-    //     // append 27 in hex to the signature_hex
-    //     let signature_hex = format!("{}{:x}", signature_hex, 27);
-    //     println!("{}", signature_hex);
-    // } else {
-    //     let signature_hex = format!("{}{:x}", signature_hex, 29);
-    //     println!("{}", signature_hex);
-    // }
-    "yo".to_string()
+    if rec_id.to_i32() == 0 {
+        // append 27 in hex to the signature_hex
+        let signature_hex = format!("{}{:x}", signature_hex, 27);
+        return signature_hex;
+    } else {
+        let signature_hex = format!("{}{:x}", signature_hex, 29);
+        return signature_hex;
+    }
 }
 
 #[cfg(test)]
