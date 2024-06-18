@@ -1,6 +1,6 @@
 pub mod eip712;
 
-use crate::eip712::{EIP712};
+use crate::eip712::EIP712;
 
 pub fn create_domain(
     name: &str,
@@ -128,7 +128,7 @@ mod tests {
         let json = generate_eip712_json_string(&domain_string, &message_string);
 
         // let typed_data = from_str::<EIP712>(json).unwrap();
-    
+
         // let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
         // assert_eq!(result, "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7");
     }

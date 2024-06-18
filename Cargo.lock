@@ -111,6 +111,7 @@ version = "0.1.0"
 dependencies = [
  "ethereum-types",
  "lazy_static",
+ "once_cell",
  "regex",
  "serde",
  "serde_json",
@@ -840,6 +841,7 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "url",
+ "validator_derive",
 ]
 
 [[package]]
