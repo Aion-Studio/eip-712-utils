@@ -54,31 +54,31 @@ fn build_dependencies<'a>(message_type: &'a str, message_types: &'a MessageTypes
 	return Some(deps)
 }
 
-// fn encode_type(message_type: &str, message_types: &MessageTypes) -> Result<String> {
-// 	let deps = {
-// 		let mut temp = build_dependencies(message_type, message_types).ok_or_else(|| ErrorKind::NonExistentType)?;
-// 		temp.remove(message_type);
-// 		let mut temp = temp.into_iter().collect::<Vec<_>>();
-// 		(&mut temp[..]).sort_unstable();
-// 		temp.insert(0, message_type);
-// 		temp
-// 	};
+fn encode_type(message_type: &str, message_types: &MessageTypes) -> Result<String> {
+	let deps = {
+		let mut temp = build_dependencies(message_type, message_types).ok_or_else(|| ErrorKind::NonExistentType)?;
+		temp.remove(message_type);
+		let mut temp = temp.into_iter().collect::<Vec<_>>();
+		(&mut temp[..]).sort_unstable();
+		temp.insert(0, message_type);
+		temp
+	};
 
-// 	let encoded = deps
-// 		.into_iter()
-// 		.filter_map(|dep| {
-// 			message_types.get(dep).map(|field_types| {
-// 				let types = field_types
-// 					.iter()
-// 					.map(|value| format!("{} {}", value.type_, value.name))
-// 					.join(",");
-// 				return format!("{}({})", dep, types);
-// 			})
-// 		})
-// 		.collect::<Vec<_>>()
-// 		.concat();
-// 	Ok(encoded)
-// }
+	let encoded = deps
+		.into_iter()
+		.filter_map(|dep| {
+			message_types.get(dep).map(|field_types| {
+				let types = field_types
+					.iter()
+					.map(|value| format!("{} {}", value.type_, value.name))
+					.join(",");
+				return format!("{}({})", dep, types);
+			})
+		})
+		.collect::<Vec<_>>()
+		.concat();
+	Ok(encoded)
+}
 
 // fn type_hash(message_type: &str, typed_data: &MessageTypes) -> Result<H256> {
 // 	Ok(keccak(encode_type(message_type, typed_data)?))
