@@ -1,3 +1,5 @@
+#![warn(missing_docs)]
+
 mod eip712;
 mod error;
 mod parser;
