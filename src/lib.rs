@@ -1,11 +1,11 @@
-#![warn(missing_docs)]
-
 mod eip712;
+mod encode;
 mod error;
 mod parser;
-mod encode;
 
-use crate::eip712::EIP712;
+pub use crate::eip712::EIP712;
+pub use crate::encode::hash_structured_data;
+pub use crate::error::{Error, ErrorKind};
 
 pub fn create_domain(
     name: &str,
