@@ -25,34 +25,34 @@ fn check_hex(string: &str) -> Result<()> {
 		format!("Expected a 0x-prefixed string of even length, found {} length string", string.len()))
 	)?
 }
-// /// given a type and HashMap<String, Vec<FieldType>>
-// /// returns a HashSet of dependent types of the given type
-// fn build_dependencies<'a>(message_type: &'a str, message_types: &'a MessageTypes) -> Option<(HashSet<&'a str>)>
-// {
-// 	if message_types.get(message_type).is_none() {
-// 		return None;
-// 	}
+/// given a type and HashMap<String, Vec<FieldType>>
+/// returns a HashSet of dependent types of the given type
+fn build_dependencies<'a>(message_type: &'a str, message_types: &'a MessageTypes) -> Option<(HashSet<&'a str>)>
+{
+	if message_types.get(message_type).is_none() {
+		return None;
+	}
 
-// 	let mut types = IndexSet::new();
-// 	types.insert(message_type);
-// 	let mut deps = HashSet::new();
+	let mut types = IndexSet::new();
+	types.insert(message_type);
+	let mut deps = HashSet::new();
 
-// 	while let Some(item) = types.pop() {
-// 		if let Some(fields) = message_types.get(item) {
-// 			deps.insert(item);
+	while let Some(item) = types.pop() {
+		if let Some(fields) = message_types.get(item) {
+			deps.insert(item);
 
-// 			for field in fields {
-// 				// seen this type before? or not a custom type skip
-// 				if deps.contains(&*field.type_) || !message_types.contains_key(&*field.type_) {
-// 					continue;
-// 				}
-// 				types.insert(&*field.type_);
-// 			}
-// 		}
-// 	};
+			for field in fields {
+				// seen this type before? or not a custom type skip
+				if deps.contains(&*field.type_) || !message_types.contains_key(&*field.type_) {
+					continue;
+				}
+				types.insert(&*field.type_);
+			}
+		}
+	};
 
-// 	return Some(deps)
-// }
+	return Some(deps)
+}
 
 // fn encode_type(message_type: &str, message_types: &MessageTypes) -> Result<String> {
 // 	let deps = {
