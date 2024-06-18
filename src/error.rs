@@ -1,7 +1,7 @@
 use std::fmt::{self, Display};
 use failure::{Fail, Context, Backtrace};
-// use validator::ValidationErrors;
-// use validator::ValidationErrorsKind;
+use validator::ValidationErrors;
+use validator::ValidationErrorsKind;
 
 // pub(crate) type Result<T> = ::std::result::Result<T, Error>;
 // /// Error type
