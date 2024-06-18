@@ -45,12 +45,12 @@ impl From<Type> for String {
 	}
 }
 
-// impl fmt::Display for Type {
-// 	fn fmt(&self, f: &mut fmt::Formatter) -> result::Result<(), fmt::Error> {
-// 		let item: String = self.clone().into();
-// 		write!(f, "{}", item)
-// 	}
-// }
+impl fmt::Display for Type {
+	fn fmt(&self, f: &mut fmt::Formatter) -> result::Result<(), fmt::Error> {
+		let item: String = self.clone().into();
+		write!(f, "{}", item)
+	}
+}
 
 // pub struct Parser {
 // 	arena: Arena,
