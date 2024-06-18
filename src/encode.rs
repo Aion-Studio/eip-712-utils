@@ -1,8 +1,8 @@
 
 //! EIP712 Encoder
 use ethabi::{encode, Token as EthAbiToken};
-// use ethereum_types::{Address as EthAddress, U256, H256};
-// use keccak_hash::keccak;
+use ethereum_types::{Address as EthAddress, U256, H256};
+use keccak_hash::keccak;
 // use serde_json::Value;
 // use std::str::FromStr;
 // use itertools::Itertools;
