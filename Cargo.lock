@@ -116,7 +116,6 @@ dependencies = [
  "serde",
  "serde_json",
  "validator",
- "validator_derive",
 ]
 
 [[package]]
