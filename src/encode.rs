@@ -7,11 +7,11 @@ use serde_json::Value;
 use std::str::FromStr;
 use itertools::Itertools;
 use indexmap::IndexSet;
-// use serde_json::to_value;
+use serde_json::to_value;
 // use crate::parser::{Parser, Type};
 // use crate::error::{Result, ErrorKind, serde_error};
-// use crate::eip712::{EIP712, MessageTypes};
-// use rustc_hex::FromHex;
+use crate::eip712::{EIP712, MessageTypes};
+use rustc_hex::FromHex;
 // use validator::Validate;
 // use std::collections::HashSet;
 

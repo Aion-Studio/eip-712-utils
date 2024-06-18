@@ -155,6 +155,7 @@ dependencies = [
  "lazy_static",
  "once_cell",
  "regex",
+ "rustc-hex",
  "serde",
  "serde_json",
  "validator",
