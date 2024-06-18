@@ -1,5 +1,5 @@
-// use std::fmt::{self, Display};
-// use failure::{Fail, Context, Backtrace};
+use std::fmt::{self, Display};
+use failure::{Fail, Context, Backtrace};
 // use validator::ValidationErrors;
 // use validator::ValidationErrorsKind;
 
