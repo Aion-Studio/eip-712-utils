@@ -57,23 +57,3 @@ pub(crate) struct FieldType {
     #[validate(regex(path = *TYPE_REGEX))]
     pub type_: String,
 }
-
-// #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
-// pub(crate) struct FieldType {
-// 	// #[validate(regex = IDENT_REGEX)]
-// 	// pub name: String,
-// 	// #[validate(regex = "IDENT_REGEX")]
-//     #[validate(custom = "validate_ident_regex")]
-// 	pub name: String,
-// 	#[serde(rename = "type")]
-// 	// #[validate(regex = "TYPE_REGEX")]
-// 	pub type_: String,
-// }
-
-// fn validate_ident_regex(name: &str) -> Result<(), validator::ValidationError> {
-// 	if IDENT_REGEX.is_match(name) {
-// 		Ok(())
-// 	} else {
-// 		Err(validator::ValidationError::new("invalid_name"))
-// 	}
-// }
