@@ -1,4 +1,6 @@
-pub mod eip712;
+mod eip712;
+mod encode;
+mod error;
 
 use crate::eip712::EIP712;
 
