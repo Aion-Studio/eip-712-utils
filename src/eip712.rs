@@ -44,6 +44,42 @@ impl EIP712Domain {
     }
 }
 
+#[derive(Default)]
+pub(crate) struct EIP712Builder {
+    domain: Option<EIP712Domain>,
+    message: Option<Value>,
+}
+
+impl EIP712Builder {
+    pub(crate) fn domain(
+        mut self,
+        name: &str,
+        version: &str,
+        chain_id: &str,
+        verifying_contract: &str,
+    ) -> Self {
+        self.domain = Some(EIP712Domain::new(
+            name,
+            version,
+            chain_id,
+            verifying_contract,
+        ));
+        self
+    }
+
+    pub(crate) fn message(mut self, token_id: &str, amount: &str, to: &str, nonce: &str) -> Self {
+        self.message = Some(EIP712::new_message(token_id, amount, to, nonce));
+        self
+    }
+
+    pub(crate) fn build(self) -> EIP712 {
+        EIP712::new(
+            self.domain.expect("Domain must be set"),
+            self.message.expect("Message must be set"),
+        )
+    }
+}
+
 /// EIP-712 struct
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -68,6 +104,9 @@ impl Validate for EIP712 {
 }
 
 impl EIP712 {
+    pub(crate) fn builder() -> EIP712Builder {
+        EIP712Builder::default()
+    }
     pub(crate) fn new(domain: EIP712Domain, message: Value) -> Self {
         let mut types = HashMap::new();
         let field_types_eip_domain = vec![
