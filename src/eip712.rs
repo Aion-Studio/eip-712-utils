@@ -30,7 +30,7 @@ pub struct EIP712Domain {
 }
 
 impl EIP712Domain {
-    pub(crate) fn new(name: &str, version: &str, chain_id: &str, verifying_contract: &str) -> Self {
+    pub fn new(name: &str, version: &str, chain_id: &str, verifying_contract: &str) -> Self {
         let json_data = create_domain(name, version, chain_id, verifying_contract);
         let domain: EIP712Domain = match serde_json::from_str(&json_data) {
             Ok(domain) => domain,
@@ -44,13 +44,14 @@ impl EIP712Domain {
 }
 
 #[derive(Default)]
-pub(crate) struct EIP712Builder {
+pub struct EIP712Builder {
     domain: Option<EIP712Domain>,
     message: Option<Value>,
+    custom_field: Option<(String, Vec<FieldType>)>,
 }
 
 impl EIP712Builder {
-    pub(crate) fn domain(
+    pub fn domain(
         mut self,
         name: &str,
         version: &str,
@@ -66,15 +67,21 @@ impl EIP712Builder {
         self
     }
 
-    pub(crate) fn message(mut self, message: Value) -> Self {
+    pub fn custom_field(mut self, field_types: (String, Vec<FieldType>)) -> Self {
+        self.custom_field = Some(field_types);
+        self
+    }
+
+    pub fn message(mut self, message: Value) -> Self {
         self.message = Some(message);
         self
     }
 
-    pub(crate) fn build(self) -> EIP712 {
+    pub fn build(self) -> EIP712 {
         EIP712::new(
             self.domain.expect("Domain must be set"),
             self.message.expect("Message must be set"),
+            self.custom_field,
         )
     }
 }
@@ -103,10 +110,14 @@ impl Validate for EIP712 {
 }
 
 impl EIP712 {
-    pub(crate) fn builder() -> EIP712Builder {
+    pub fn builder() -> EIP712Builder {
         EIP712Builder::default()
     }
-    pub(crate) fn new(domain: EIP712Domain, message: Value) -> Self {
+    pub(crate) fn new(
+        domain: EIP712Domain,
+        message: Value,
+        custom_field: Option<(String, Vec<FieldType>)>,
+    ) -> Self {
         let mut types = HashMap::new();
         let field_types_eip_domain = vec![
             FieldType {
@@ -126,33 +137,24 @@ impl EIP712 {
                 type_: "address".to_string(),
             },
         ];
-        let field_types_nft_data = vec![
-            FieldType {
-                name: "tokenId".to_string(),
-                type_: "uint256".to_string(),
-            },
-            FieldType {
-                name: "amount".to_string(),
-                type_: "uint256".to_string(),
-            },
-            FieldType {
-                name: "to".to_string(),
-                type_: "address".to_string(),
-            },
-            FieldType {
-                name: "nonce".to_string(),
-                type_: "uint256".to_string(),
-            },
-        ];
+
         types.insert("EIP712Domain".to_string(), field_types_eip_domain);
-        types.insert("NFTData".to_string(), field_types_nft_data);
+
+        let mut primary_type = "EI712Domain".to_string();
+        if let Some((type_name, fields)) = custom_field {
+            primary_type = type_name.clone();
+            types.insert(type_name, fields);
+        }
 
         Self {
-            primary_type: "NFTData".to_string(),
+            primary_type,
             types,
             message,
             domain,
         }
+    }
+    pub fn add_type(&mut self, type_name: String, fields: Vec<FieldType>) {
+        self.types.insert(type_name, fields);
     }
 }
 

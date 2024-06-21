@@ -1,7 +1,19 @@
 [package]
-name = "eip712_nft_minter"
+name = "eip_712_utils"
 version = "0.1.0"
+authors = [
+  "Marko Bilal <github.com/marko911>",
+  "Tommy Harper <github.com/tommyrharper>",
+]
 edition = "2021"
+description = "A Rust library providing utilities for EIP-712 message signing"
+license = "MIT"
+repository = "https://github.com/Aion-Studio/eip-712-utils"
+homepage = "https://github.com/yourusername/eip_712_utils"
+documentation = "https://docs.rs/eip_712_utils"
+readme = "README.md"
+keywords = ["EIP-712", "signing", "crypto", "blockchain"]
+categories = ["cryptography", "blockchain", "utilities"]
 
 [dependencies]
 ethabi = "6.0"
@@ -27,5 +39,5 @@ secp256k1 = { version = "0.29.0", features = [
 ] }
 
 [lib]
-name = "eip712_nft_minter"
+name = "eip_712_utils"
 crate-type = ["lib"]

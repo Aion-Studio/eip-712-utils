@@ -133,7 +133,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "eip712_nft_minter"
+name = "eip_712_utils"
 version = "0.1.0"
 dependencies = [
  "ethabi",

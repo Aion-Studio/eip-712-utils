@@ -68,6 +68,8 @@ pub fn hash_structured_data_string(json: String) -> String {
 #[cfg(test)]
 mod tests {
 
+    use crate::FieldType;
+
     use super::*;
     use rustc_hex::ToHex;
     use serde_json::json;
@@ -133,8 +135,28 @@ mod tests {
         let to = "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496";
         let nonce = "0x1";
 
+        let custom_fields = vec![
+            FieldType {
+                name: "tokenId".to_string(),
+                type_: "uint256".to_string(),
+            },
+            FieldType {
+                name: "amount".to_string(),
+                type_: "uint256".to_string(),
+            },
+            FieldType {
+                name: "to".to_string(),
+                type_: "address".to_string(),
+            },
+            FieldType {
+                name: "nonce".to_string(),
+                type_: "uint256".to_string(),
+            },
+        ];
+
         let data: EIP712 = EIP712::builder()
             .domain(name, version, chain_id, verifying_contract)
+            .custom_field(("NFTData".to_string(), custom_fields))
             .message(json!({
                 "tokenId": token_id,
                 "amount": amount,
@@ -142,7 +164,6 @@ mod tests {
                 "nonce": nonce
             }))
             .build();
-       
 
         let result = hash_structured_data(data).unwrap().to_hex::<String>();
         assert_eq!(
