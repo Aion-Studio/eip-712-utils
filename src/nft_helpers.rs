@@ -67,7 +67,6 @@ pub fn hash_structured_data_string(json: String) -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::eip712::EIP712Domain;
 
     use super::*;
     use rustc_hex::ToHex;
@@ -133,11 +132,6 @@ mod tests {
         let amount = "0x1";
         let to = "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496";
         let nonce = "0x1";
-
-        // let domain_string = create_domain(name, version, chain_id, verifying_contract);
-        // let message_string = create_message(token_id, amount, to, nonce);
-        // let json = generate_eip712_json_string(&domain_string, &message_string);
-        // let typed_data = from_str::<EIP712>(&json).unwrap();
 
         let data: EIP712 = EIP712::builder()
             .domain(name, version, chain_id, verifying_contract)

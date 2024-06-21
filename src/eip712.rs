@@ -2,7 +2,6 @@
 use ethereum_types::{Address, H256, U256};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use serde_json::Value;
 use std::collections::HashMap;
 use validator::Validate;
@@ -12,7 +11,7 @@ use once_cell::sync::Lazy;
 
 use crate::create_domain;
 
-pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
+pub type MessageTypes = HashMap<String, Vec<FieldType>>;
 
 static TYPE_REGEX: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"^[a-zA-Z_$][a-zA-Z_$0-9]*(\[([1-9]\d*)*\])*$").unwrap());
@@ -21,7 +20,7 @@ static IDENT_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[a-zA-Z_$][a-zA-Z_$
 #[derive(Deserialize, Serialize, Validate, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
-pub(crate) struct EIP712Domain {
+pub struct EIP712Domain {
     pub(crate) name: String,
     pub(crate) version: String,
     pub(crate) chain_id: U256,
@@ -158,7 +157,7 @@ impl EIP712 {
 }
 
 #[derive(Serialize, Deserialize, Validate, Debug, Clone)]
-pub(crate) struct FieldType {
+pub struct FieldType {
     #[validate(regex(path = *IDENT_REGEX))]
     pub name: String,
     #[serde(rename = "type")]

@@ -1,15 +1,23 @@
-mod eip712;
 mod encode;
 mod error;
-mod nft_helpers;
 mod parser;
-mod signing;
 
-pub use crate::eip712::EIP712;
 pub use crate::encode::hash_structured_data;
 pub use crate::error::{Error, ErrorKind};
 pub use crate::nft_helpers::*;
-pub use crate::signing::sign_message;
+
+pub mod eip712;
+pub mod nft_helpers;
+pub mod signing;
+
+// Re-export EIP712 and EIP712Domain
+pub use eip712::{EIP712Domain, FieldType, MessageTypes, EIP712};
+
+// Re-export functions from nft_helpers
+pub use nft_helpers::hash_structured_data_string;
+
+// Re-export functions from signing
+pub use signing::sign_message;
 
 #[cfg(test)]
 mod tests {
