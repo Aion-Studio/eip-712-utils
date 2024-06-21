@@ -2,12 +2,15 @@
 use ethereum_types::{Address, H256, U256};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use serde_json::Value;
 use std::collections::HashMap;
 use validator::Validate;
 use validator::ValidationErrors;
 
 use once_cell::sync::Lazy;
+
+use crate::create_domain;
 
 pub(crate) type MessageTypes = HashMap<String, Vec<FieldType>>;
 
@@ -26,6 +29,21 @@ pub(crate) struct EIP712Domain {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) salt: Option<H256>,
 }
+
+impl EIP712Domain {
+    pub(crate) fn new(name: &str, version: &str, chain_id: &str, verifying_contract: &str) -> Self {
+        let json_data = create_domain(name, version, chain_id, verifying_contract);
+        let domain: EIP712Domain = match serde_json::from_str(&json_data) {
+            Ok(domain) => domain,
+            Err(e) => {
+                println!("Error parsing EIP712Domain {:?}", e);
+                panic!()
+            }
+        };
+        domain
+    }
+}
+
 /// EIP-712 struct
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -46,6 +64,67 @@ impl Validate for EIP712 {
             }
         }
         Ok(())
+    }
+}
+
+impl EIP712 {
+    pub(crate) fn new(domain: EIP712Domain, message: Value) -> Self {
+        let mut types = HashMap::new();
+        let field_types_eip_domain = vec![
+            FieldType {
+                name: "name".to_string(),
+                type_: "string".to_string(),
+            },
+            FieldType {
+                name: "version".to_string(),
+                type_: "string".to_string(),
+            },
+            FieldType {
+                name: "chainId".to_string(),
+                type_: "uint256".to_string(),
+            },
+            FieldType {
+                name: "verifyingContract".to_string(),
+                type_: "address".to_string(),
+            },
+        ];
+        let field_types_nft_data = vec![
+            FieldType {
+                name: "tokenId".to_string(),
+                type_: "uint256".to_string(),
+            },
+            FieldType {
+                name: "amount".to_string(),
+                type_: "uint256".to_string(),
+            },
+            FieldType {
+                name: "to".to_string(),
+                type_: "address".to_string(),
+            },
+            FieldType {
+                name: "nonce".to_string(),
+                type_: "uint256".to_string(),
+            },
+        ];
+        types.insert("EIP712Domain".to_string(), field_types_eip_domain);
+        types.insert("NFTData".to_string(), field_types_nft_data);
+
+        Self {
+            primary_type: "NFTData".to_string(),
+            types,
+            message,
+            domain,
+        }
+    }
+
+    pub(crate) fn new_message(token_id: &str, amount: &str, to: &str, nonce: &str) -> Value {
+        let message = json!({
+            "tokenId": token_id,
+            "amount": amount,
+            "to": to,
+            "nonce": nonce,
+        });
+        message
     }
 }
 

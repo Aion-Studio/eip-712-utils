@@ -67,9 +67,10 @@ pub fn hash_structured_data_string(json: String) -> String {
 
 #[cfg(test)]
 mod tests {
+    use crate::eip712::EIP712Domain;
+
     use super::*;
     use rustc_hex::ToHex;
-    use serde_json::from_str;
 
     #[test]
     fn it_creates_json_string() {
@@ -116,8 +117,8 @@ mod tests {
             }
         }"#;
 
-        let v1: serde_json::Value = serde_json::from_str(&json).unwrap();
-        let v2: serde_json::Value = serde_json::from_str(&expected_json).unwrap();
+        let v1: serde_json::Value = from_str(&json).unwrap();
+        let v2: serde_json::Value = from_str(&expected_json).unwrap();
         assert_eq!(v1, v2);
     }
 
@@ -132,12 +133,16 @@ mod tests {
         let to = "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496";
         let nonce = "0x1";
 
-        let domain_string = create_domain(name, version, chain_id, verifying_contract);
-        let message_string = create_message(token_id, amount, to, nonce);
-        let json = generate_eip712_json_string(&domain_string, &message_string);
-        let typed_data = from_str::<EIP712>(&json).unwrap();
+        // let domain_string = create_domain(name, version, chain_id, verifying_contract);
+        // let message_string = create_message(token_id, amount, to, nonce);
+        // let json = generate_eip712_json_string(&domain_string, &message_string);
+        // let typed_data = from_str::<EIP712>(&json).unwrap();
 
-        let result = hash_structured_data(typed_data).unwrap().to_hex::<String>();
+        let domain = EIP712Domain::new(name, version, chain_id, verifying_contract);
+        let message = EIP712::new_message(token_id, amount, to, nonce);
+        let eip_data = EIP712::new(domain, message.clone());
+
+        let result = hash_structured_data(eip_data).unwrap().to_hex::<String>();
         assert_eq!(
             result,
             "77915d20c811f39572463a234db9b776d518d07d9682a825be0d79752745a4c7"
