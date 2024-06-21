@@ -67,8 +67,8 @@ impl EIP712Builder {
         self
     }
 
-    pub(crate) fn message(mut self, token_id: &str, amount: &str, to: &str, nonce: &str) -> Self {
-        self.message = Some(EIP712::new_message(token_id, amount, to, nonce));
+    pub(crate) fn message(mut self, message: Value) -> Self {
+        self.message = Some(message);
         self
     }
 
@@ -154,16 +154,6 @@ impl EIP712 {
             message,
             domain,
         }
-    }
-
-    pub(crate) fn new_message(token_id: &str, amount: &str, to: &str, nonce: &str) -> Value {
-        let message = json!({
-            "tokenId": token_id,
-            "amount": amount,
-            "to": to,
-            "nonce": nonce,
-        });
-        message
     }
 }
 

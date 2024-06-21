@@ -71,6 +71,7 @@ mod tests {
 
     use super::*;
     use rustc_hex::ToHex;
+    use serde_json::json;
 
     #[test]
     fn it_creates_json_string() {
@@ -140,7 +141,12 @@ mod tests {
 
         let data: EIP712 = EIP712::builder()
             .domain(name, version, chain_id, verifying_contract)
-            .message(token_id, amount, to, nonce)
+            .message(json!({
+                "tokenId": token_id,
+                "amount": amount,
+                "to": to,
+                "nonce": nonce
+            }))
             .build();
        
 
